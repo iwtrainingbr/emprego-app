@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Layout from "../../components/Layout";
 import "./styles.scss";
-import {Badge, Card, CardActionArea, CardContent, Chip, Divider, Grid} from "@material-ui/core";
+import {Card, CardActionArea, CardContent, Chip, Divider, Grid} from "@material-ui/core";
 import {API_URL} from "../../config";
 
 export default function Home(props) {
@@ -32,7 +32,7 @@ export default function Home(props) {
 
                     {jobs.map(job => {
                         return (
-                            <Card elevation={3} style={{marginTop: 10}}>
+                            <Card elevation={3} style={{marginTop: 10}} key={job.id}>
                                 <CardActionArea onClick={() => props.history.push('/vagas/'+job.id)}>
                                     <CardContent>
                                         <Grid container spacing={0}>

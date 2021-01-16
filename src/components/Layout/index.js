@@ -30,6 +30,10 @@ export default function Layout(props) {
     const open = Boolean(anchorEl);
     let history = useHistory();
 
+    let userLogged = JSON.parse(
+        localStorage.getItem('user_logged')
+    );
+
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -46,10 +50,11 @@ export default function Layout(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        Photos
+                        Empregô
                     </Typography>
 
                     <div>
+                        {userLogged.name}
                         <IconButton
                             aria-label="account of current user"
                             aria-controls="menu-appbar"

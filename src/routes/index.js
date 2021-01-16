@@ -18,7 +18,7 @@ export default function Routes (props) {
             <Route path={"/admin"} component={Admin}/>
             <Route path={"/tutorial"} component={Tutorial}/>
             <Route path={"/meu-perfil"} component={Profile}/>
-            <Route path={"/vagas"} component={Jobs}/>
+            <Route path={"/vagas/:id"} component={Jobs}/>
 
 
             <Route path={"/*"} component={NotFound}/>

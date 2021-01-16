@@ -1,49 +1,55 @@
 import React, {useEffect, useState} from 'react';
 import Layout from "../../components/Layout";
+import {API_URL} from "../../config";
+import {Button} from "@material-ui/core";
 
 export default function Jobs(props) {
-    const [jobsData, setJobsData] = useState([]);
+    const [jobData, setJobData] = useState({});
+    const id = props.match.params.id;
+
+    const userLogged = JSON.parse(
+        localStorage.getItem('user_logged')
+    );
 
     useEffect( () => {
-        fetch('https://emprego-iwtraining.firebaseio.com/jobs.json')
+        fetch(API_URL+`/jobs/${id}.json`)
             .then(response => response.json())
             .then(response => {
-               let data = [];
-
-               for(let id in response) {
-                   data.push(response[id]);
-               }
-
-               setJobsData(data);
+               setJobData(response);
             });
     }, []);
+
+    const makeMatch = () => {
+        jobData.likes = jobData.likes || [];
+        jobData.likes.push(userLogged.id);
+
+        fetch(API_URL+`/jobs/${id}.json`, {
+            method: 'PUT',
+            body: JSON.stringify(jobData)
+        })
+            .then(response => response.json())
+            .then(response => {
+
+            });
+    };
 
     return (
         <Layout
             content={
                 <>
-                    <h1>Página de Vagas</h1>
+                    <h1>{jobData.title}</h1>
 
-                    <table width="100%" border="1">
-                        <thead>
-                            <tr>
-                                <th>Titulo</th>
-                                <th>Requisitos</th>
-                                <th>Postada em</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {jobsData.map(job => {
-                            return (
-                                <tr>
-                                    <td>{job.title}</td>
-                                    <td>{job.requirements}</td>
-                                    <td>{job.date}</td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                    </table>
+                    <hr/>
+
+                    <strong>Jornada: </strong> {jobData.journey}
+
+                    <Button onClick={makeMatch} color="primary" variant={"contained"} fullWidth>
+                        Tenho interesse
+                    </Button>
+
+                    <Button onClick={() => props.history.push('/')} color={"primary"} variant={"text"}>
+                        Voltar
+                    </Button>
                 </>
             }
         />
